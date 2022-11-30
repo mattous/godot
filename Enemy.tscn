@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Sprites/mysitc-wood/sprites/characters/slime.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Enemy.gd" type="Script" id=2]
+[ext_resource path="res://Font/roboto-bold.tres" type="DynamicFont" id=3]
+[ext_resource path="res://UI/UI_Square.png" type="Texture" id=4]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 22.0
+
+[node name="Enemy" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 2.6875, 2.53125 )
+frames = ExtResource( 1 )
+animation = "Idle"
+frame = 1
+playing = true
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="DamageTaken" type="Label" parent="."]
+visible = false
+self_modulate = Color( 1, 0, 0, 1 )
+margin_left = -30.0
+margin_top = -86.0
+margin_right = 31.0
+margin_bottom = -44.0
+custom_fonts/font = ExtResource( 3 )
+align = 1
+
+[node name="HealthBar" type="TextureProgress" parent="."]
+margin_left = -31.0
+margin_top = -50.0
+margin_right = 31.0
+margin_bottom = -39.0
+value = 100.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 4 )
+tint_progress = Color( 1, 0, 0, 1 )
+nine_patch_stretch = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
