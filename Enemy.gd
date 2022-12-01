@@ -4,9 +4,9 @@ var curHp : int = 5
 var maxHp : int = 5
 var moveSpeed : int = 300
 var xpToGive : int = 100
-var damage : int = 500
+var damage : int = 1
 var attackRate : float = 0.2
-var attackDist : int = 0.5
+var attackDist : int = 5
 var chaseDist : int = 300
 var minRespawn : int = 150
 var maxRespawn : int = 500
@@ -23,7 +23,6 @@ var enemy = load("res://Enemy.tscn")
 var chest = load("res://Chest.tscn")
 
 func _ready ():
-	print_debug("dead: ", dead)
 	set_collision_layer_bit(1, true)
 	set_collision_mask_bit(1, true)
 	add_to_group("enemy")
@@ -33,7 +32,7 @@ func _ready ():
 func _physics_process (delta):
 	if dead == false:
 		if is_instance_valid(target):
-			var dist = position.distance_to(target.position)
+			var dist = global_position.distance_to(target.global_position)
 			if dist > attackDist and dist < chaseDist or agro == true:
 				anim.play("Move")
 				var vel = (global_position.direction_to(target.global_position)).normalized()
@@ -47,14 +46,6 @@ func take_damage (dmgToTake):
 	$HealthBar.value = (100 / maxHp) * curHp
 	$DamageTaken.text = str(dmgToTake)
 	$DamageTaken.visible = true
-	
-	#var tween = Tween.new();
-	#tween.interpolate_property(
-	#	$DamageTaken, "position.x", 0, 100, 
-	#	1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
-	#	)
-	#add_child(tween)
-	#stween.start()
 	
 	yield(get_tree().create_timer(0.15), "timeout")
 	$DamageTaken.visible = false
@@ -124,10 +115,7 @@ func dropChest():
 	
 func _on_Timer_timeout():
 	if is_instance_valid(target):
-#		print_debug("mob: ", position)
-#		print_debug("player: ", target.position)
-#		print_debug("dist: ", position.distance_to(target.position))
-
-		if position.distance_to(target.position) <= attackDist:
+		if global_position.distance_to(target.global_position) <= attackDist:
+			print_debug("dmg it")
 			if dead == false: # mob isn't dead
 				target.take_damage(damage)
