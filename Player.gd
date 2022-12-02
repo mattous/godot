@@ -29,10 +29,6 @@ func _ready():
 	ui.update_gold_text(gold)
 
 func _physics_process (delta):
-	
-#	collect_gold()
-#	try_damage()
-	try_interact()
   
 	vel = Vector2()
   
@@ -138,11 +134,3 @@ func play_animation (anim_name, directon):
 		anim.flip_h = true
 	if anim.animation != anim_name:
 		anim.play(anim_name)
-		
-func try_interact ():
-	rayCast.cast_to = facingDir * interactDist
-	if rayCast.is_colliding():
-		if rayCast.get_collider() is KinematicBody2D:
-			rayCast.get_collider().take_damage(damage)
-		elif rayCast.get_collider().has_method("on_interact"):
-			rayCast.get_collider().on_interact(self)
