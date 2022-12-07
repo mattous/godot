@@ -116,6 +116,5 @@ func dropChest():
 func _on_Timer_timeout():
 	if is_instance_valid(target):
 		if global_position.distance_to(target.global_position) <= attackDist:
-			print_debug("dmg it")
 			if dead == false: # mob isn't dead
 				target.take_damage(damage)
