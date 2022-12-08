@@ -123,7 +123,7 @@ shape = SubResource( 1 )
 rotation = 0.169297
 scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
-frame = 47
+frame = 56
 playing = true
 
 [connection signal="body_entered" from="." to="." method="_on_RigidBody2D_body_entered"]

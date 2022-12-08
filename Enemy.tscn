@@ -20,7 +20,7 @@ shape = SubResource( 1 )
 scale = Vector2( 2.6875, 2.53125 )
 frames = ExtResource( 1 )
 animation = "Idle"
-frame = 3
+frame = 1
 playing = true
 
 [node name="Timer" type="Timer" parent="."]
