@@ -17,3 +17,6 @@ https://pixel-poem.itch.io/dungeon-assetpuck
 ## guides used
 
 https://godottutorials.pro/wp-content/uploads/2020/07/Godot-Game-Development-for-Beginners.pdf
+
+https://kidscancode.org/blog/2018/12/godot3_procgen6/
+
