@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://dungeon.tres" type="TileSet" id=1]
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Chest.tscn" type="PackedScene" id=5]
 [ext_resource path="res://UI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Rooms.gd" type="Script" id=7]
 
@@ -16,9 +15,6 @@ margin_left = 10.0
 margin_top = 530.0
 margin_bottom = 533.0
 
-[node name="Coin" parent="." instance=ExtResource( 5 )]
-position = Vector2( -384, -173 )
-
 [node name="Enemy" parent="." groups=["enemy"] instance=ExtResource( 4 )]
 position = Vector2( 397, -40 )
 
@@ -29,3 +25,8 @@ script = ExtResource( 7 )
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
+tile_data = PoolIntArray( -851962, 5, 0, 589801, 3, 0 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 7, 7 )

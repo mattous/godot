@@ -17,5 +17,5 @@ position = Vector2( -9.53674e-07, 0 )
 scale = Vector2( 3.38889, 3.62532 )
 frames = ExtResource( 1 )
 animation = "spin"
-frame = 4
+frame = 3
 playing = true

@@ -64,7 +64,7 @@
 [ext_resource path="res://Sprites/fireball/Effect3/25.png" type="Texture" id=62]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 18.0
+radius = 8.0
 height = 0.0
 
 [sub_resource type="AtlasTexture" id=3]
@@ -109,21 +109,18 @@ animations = [ {
 } ]
 
 [node name="Fireball" type="RigidBody2D"]
-collision_layer = 2
-collision_mask = 2
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 10, 0 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -6, -1 )
 rotation = 0.169297
-scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
-frame = 56
+frame = 8
 playing = true
 
 [connection signal="body_entered" from="." to="." method="_on_RigidBody2D_body_entered"]
