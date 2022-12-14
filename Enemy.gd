@@ -15,7 +15,7 @@ var dead : bool = false
 var agro : bool = false
 onready var anim : AnimatedSprite = $AnimatedSprite
 onready var timer = $Timer
-onready var target = get_node("/root/MainScene/Player")
+onready var target = get_node("/root/MainScene/Rooms/Player")
 onready var ui = get_node('/root/MainScene/CanvasLayer/UI') 
 onready var noSpawn = get_node('/root/MainScene/NoSpawn') 
 
@@ -55,7 +55,6 @@ func take_damage (dmgToTake):
 	if curHp <= 0:
 		die()
 		
-		
 func play_animation (anim_name):
 	#if directon == "right":
 	#	anim.flip_h = false
@@ -66,12 +65,13 @@ func play_animation (anim_name):
 
 func die ():
 	if is_instance_valid(target):
+		print_debug("die")
 		dead = true
 		anim.play("Die")
 		target.give_xp(xpToGive)
 		yield(get_tree().create_timer(0.5), "timeout")
 		dropChest()
-		respawn()
+#		respawn()
 		queue_free()
 
 func respawn():

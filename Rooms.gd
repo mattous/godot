@@ -2,6 +2,7 @@ extends Node2D
 
 var Room = preload("res://Room.tscn")
 var Player = preload("res://Player.tscn")
+var Enemy = preload("res://Enemy.tscn")
 var font = preload("res://Font/roboto-bold.tres")
 onready var Rooms = get_node('/root/MainScene/Rooms') 
 onready var Map : TileMap = get_node('/root/MainScene/TileMap') 
@@ -18,6 +19,7 @@ var start_room = null
 var end_room = null
 var play_mode = false
 var player = null
+var enemy = null
 
 func _ready():
 	randomize()
@@ -32,8 +34,7 @@ func _draw():
 		return
 	for room in Rooms.get_children():
 		draw_rect(Rect2(room.position - room.size, room.size * 2),
-				 Color(0, 1, 0), false)
-		spawn_mob(room)
+				 Color(0, 1, 0), false)	
 	if path:
 		for p in path.get_points():
 			for c in path.get_point_connections(p):
@@ -59,11 +60,16 @@ func _input(event):
 	if event.is_action_pressed('ui_focus_next'):
 		make_map()
 	if event.is_action_pressed('ui_cancel'):
-		player = Player.instance()
-		add_child(player)
-		player.position = start_room.position
-		play_mode = true
+		spawn_player()
 		
+func spawn_player():
+	player = Player.instance()
+	add_child(player)
+	player.position = start_room.position
+	play_mode = true
+	for r in Rooms.get_children():
+		spawn_mob(r.position)
+	
 func make_rooms():
 	for i in range(num_rooms):
 		var pos = Vector2(rand_range(-hspread, hspread), 0)
@@ -85,6 +91,9 @@ func make_rooms():
 	yield(get_tree(), 'idle_frame')
 	# generate spanning tree (path)
 	path = find_mst(room_positions)
+	make_map()
+	yield(get_tree().create_timer(1), "timeout")
+	spawn_player()
 
 func find_mst(nodes):
 	# Prim's algorithm
@@ -196,5 +205,8 @@ func find_end_room():
 			end_room = room
 			max_x = room.position.x
 			
-func spawn_mob(room):
+func spawn_mob(position):
+	enemy = Enemy.instance()
+	add_child(enemy)
+	enemy.position = position
 	return

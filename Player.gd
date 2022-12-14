@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 var curHp : int = 100
 var maxHp : int = 100
-var moveSpeed : int = 250
+var moveSpeed : int = 500
 var damage : int = 1
 var gold : int = 0
 var curLevel : int = 0
@@ -10,7 +10,7 @@ var curXp : int = 0
 var xpToNextLevel : int = 50
 var xpToLevelIncreaseRate : float = 1.2
 var interactDist : int = 70
-var fireballSpeed : int = 750
+var fireballSpeed : int = 1000
 var fireballRate : float = 0.5
 var canFire = true
 var vel = Vector2()
@@ -27,7 +27,6 @@ var fireball = preload("res://Fireball.tscn")
 #	camera.position = position
 	
 func _process (delta):
-	
 	ui.update_level_text(curLevel)
 	ui.update_health_bar(curHp, maxHp)
 	ui.update_xp_bar(curXp, xpToNextLevel)
