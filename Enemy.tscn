@@ -7,9 +7,12 @@
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 22.0
+height = 2.0
 
 [node name="Enemy" type="KinematicBody2D" groups=["enemy"]]
 z_index = 1
+collision_layer = 2
+collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -36,9 +39,9 @@ align = 1
 
 [node name="HealthBar" type="TextureProgress" parent="."]
 margin_left = -31.0
-margin_top = -50.0
+margin_top = -42.0
 margin_right = 31.0
-margin_bottom = -39.0
+margin_bottom = -31.0
 value = 100.0
 texture_under = ExtResource( 4 )
 texture_progress = ExtResource( 4 )

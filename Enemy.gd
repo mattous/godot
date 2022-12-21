@@ -23,8 +23,6 @@ var enemy = load("res://Enemy.tscn")
 var chest = load("res://Chest.tscn")
 
 func _ready ():
-	set_collision_layer_bit(1, true)
-	set_collision_mask_bit(1, true)
 	add_to_group("enemy")
 	timer.wait_time = attackRate
 	timer.start()

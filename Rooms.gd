@@ -91,6 +91,7 @@ func make_rooms():
 	yield(get_tree(), 'idle_frame')
 	# generate spanning tree (path)
 	path = find_mst(room_positions)
+	yield(get_tree().create_timer(2), "timeout")
 	make_map()
 	yield(get_tree().create_timer(1), "timeout")
 	spawn_player()
