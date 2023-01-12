@@ -11,6 +11,7 @@ func _on_RigidBody2D_body_entered(body):
 			mode = RigidBody2D.MODE_KINEMATIC
 			body.take_damage(damage)
 			anim.play('explode')
+			anim.set_scale(Vector2(5,5))
 			yield(get_tree().create_timer(0.7), "timeout")
 			queue_free()
 			
