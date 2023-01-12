@@ -38,6 +38,7 @@ view=false
 viewpo=false
 "default grav"=false
 gravity=false
+layer=false
 
 [importer_defaults]
 
@@ -105,6 +106,15 @@ scroll_down={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":123,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="walls"
+2d_physics/layer_2="player"
+2d_physics/layer_3="ememies"
+2d_physics/layer_4="coins"
+2d_physics/layer_5="fireball"
+2d_physics/layer_6="room"
 
 [physics]
 

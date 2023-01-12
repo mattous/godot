@@ -1,9 +1,8 @@
 extends Area2D
 
 export var goldToGive : int = 1
-export var coinPickupRange : int = 10
-onready var player = get_node("/root/MainScene/Player")
-
+export var coinPickupRange : int = 50
+onready var player = get_node("/root/MainScene/Rooms/Player")
 
 func _physics_process (delta):
 	if is_instance_valid(player):

@@ -57,10 +57,10 @@ func _input(event):
 		start_room = null
 		end_room = null
 		make_rooms()
-	if event.is_action_pressed('ui_focus_next'):
-		make_map()
-	if event.is_action_pressed('ui_cancel'):
-		spawn_player()
+#	if event.is_action_pressed('ui_focus_next'):
+#		make_map()
+#	if event.is_action_pressed('ui_cancel'):
+#		spawn_player()
 		
 func spawn_player():
 	player = Player.instance()
@@ -91,9 +91,8 @@ func make_rooms():
 	yield(get_tree(), 'idle_frame')
 	# generate spanning tree (path)
 	path = find_mst(room_positions)
-	yield(get_tree().create_timer(2), "timeout")
-	make_map()
 	yield(get_tree().create_timer(1), "timeout")
+	make_map()
 	spawn_player()
 
 func find_mst(nodes):
