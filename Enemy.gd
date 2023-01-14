@@ -14,6 +14,7 @@ var respawnDelay : float = 0.2
 var dead : bool = false
 var agro : bool = false
 onready var anim : AnimatedSprite = $AnimatedSprite
+onready var collision : CollisionShape2D = $CollisionShape2D
 onready var timer = $Timer
 onready var target = get_node("/root/MainScene/Rooms/Player")
 onready var rooms = get_node("/root/MainScene/Rooms")
@@ -65,12 +66,13 @@ func play_animation (anim_name):
 func die ():
 	if is_instance_valid(target):
 		dead = true
+		collision.set_disabled(true) 
 		anim.play("Die")
 		target.give_xp(xpToGive)
 		set_collision_layer_bit(3, false)
 		set_collision_mask_bit(2, false)
 		set_collision_mask_bit(5, false)
-		yield(get_tree().create_timer(0.5), "timeout")
+		yield(anim, "animation_finished")
 		dropChest()
 #		respawn()
 		queue_free()
