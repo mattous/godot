@@ -68,7 +68,9 @@ func spawn_player():
 	player.position = start_room.position
 	play_mode = true
 	for r in Rooms.get_children():
-		spawn_mob(r.position)
+		# if start room then don't spawn mob
+		if r.position != start_room.position:
+			spawn_mob(r.position)
 	
 func make_rooms():
 	for i in range(num_rooms):
