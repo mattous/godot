@@ -7,6 +7,7 @@ onready var goldText : Label = get_node("BG/GoldText")
 onready var targetHealthBar : TextureProgress = get_node("BG/TargetHealthBar")
 onready var damageDoneText : Label = get_node("BG/DamageDone")
 onready var damageTakenText : Label = get_node("BG/DamageTaken")
+onready var loadScreen : TextureRect = get_node("LoadScreen")
 
 func update_level_text (level):
 	levelText.text = str(level)
@@ -32,3 +33,6 @@ func update_damage_taken(damage):
 	
 func update_target_health_bar (curHp, maxHp):
 	targetHealthBar.value = (100 / maxHp) * curHp
+	
+func hideLoadScreen():
+	loadScreen.set_visible(false)

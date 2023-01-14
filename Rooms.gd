@@ -5,7 +5,8 @@ var Player = preload("res://Player.tscn")
 var Enemy = preload("res://Enemy.tscn")
 var font = preload("res://Font/roboto-bold.tres")
 onready var Rooms = get_node('/root/MainScene/Rooms') 
-onready var Map : TileMap = get_node('/root/MainScene/TileMap') 
+onready var Map : TileMap = get_node('/root/MainScene/TileMap')
+onready var ui = get_node('/root/MainScene/CanvasLayer/UI') 
 
 var tile_size = 16  # size of a tile in the TileMap
 var num_rooms = 50  # number of rooms to generate
@@ -63,6 +64,7 @@ func _input(event):
 #		spawn_player()
 		
 func spawn_player():
+	ui.hideLoadScreen()
 	player = Player.instance()
 	add_child(player)
 	player.position = start_room.position
