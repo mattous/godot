@@ -118,11 +118,17 @@ texture = ExtResource( 1 )
 expand = true
 
 [node name="Label" type="Label" parent="LoadScreen"]
-margin_left = -21.0
-margin_top = 410.0
-margin_right = 68.0
-margin_bottom = 450.0
+margin_left = 39.0
+margin_top = 372.0
+margin_right = 128.0
+margin_bottom = 412.0
 rect_scale = Vector2( 5, 5 )
 text = "Loading..."
 align = 1
 valign = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="LoadScreen"]
+margin_left = 393.0
+margin_top = 306.0
+margin_right = 503.0
+margin_bottom = 346.0

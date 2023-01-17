@@ -10,9 +10,10 @@ position = Vector2( -300, 145 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="UI" parent="CanvasLayer" instance=ExtResource( 6 )]
-margin_left = 10.0
-margin_top = 530.0
-margin_bottom = 533.0
+margin_left = -5.0
+margin_top = 547.0
+margin_right = -5.0
+margin_bottom = 550.0
 
 [node name="Rooms" type="Node2D" parent="."]
 script = ExtResource( 7 )

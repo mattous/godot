@@ -149,7 +149,7 @@ func make_map():
 	var bottomright = Map.world_to_map(full_rect.end)
 	for x in range(topleft.x, bottomright.x):
 		for y in range(topleft.y, bottomright.y):
-			Map.set_cell(x, y, 7)
+			Map.set_cell(x, y, 69)
 
 	# Carve rooms
 	var corridors = []  # One corridor per connection
@@ -159,7 +159,7 @@ func make_map():
 		var ul = (room.position / tile_size).floor() - s
 		for x in range(2, s.x * 2 - 1):
 			for y in range(2, s.y * 2 - 1):
-				Map.set_cell(ul.x + x, ul.y + y, 8)
+				Map.set_cell(ul.x + x, ul.y + y, rand_range(26,29))
 		# Carve connecting corridor
 		var p = path.get_closest_point(Vector3(room.position.x, 
 											room.position.y, 0))
