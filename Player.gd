@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 var curHp : int = 100
 var maxHp : int = 100
-var moveSpeed : int = 250
+var moveSpeed : int = 500
 var damage : int = 1
 var gold : int = 0
 var curLevel : int = 0
@@ -11,22 +11,32 @@ var xpToNextLevel : int = 50
 var xpToLevelIncreaseRate : float = 1.2
 var interactDist : int = 70
 var fireballSpeed : int = 1000
-var fireballRate : float = 0.2
+var fireballRate : float = 0.5
 var canFire = true
 var vel = Vector2()
 var facingDir = Vector2()
 onready var rayCast = $RayCast2D
 onready var anim : AnimatedSprite = $AnimatedSprite
 onready var ui = get_node('/root/MainScene/CanvasLayer/UI') 
+onready var camera = get_node('/root/MainScene/Camera') 
 var fireball = preload("res://Fireball.tscn")
 # Called when the node enters the scene tree for the first time.
 
-func _ready():
+#func _ready():
+	# set camera to target player position once loaded
+#	camera.position = position
 	
+func _process (delta):
 	ui.update_level_text(curLevel)
 	ui.update_health_bar(curHp, maxHp)
 	ui.update_xp_bar(curXp, xpToNextLevel)
 	ui.update_gold_text(gold)
+
+func _input(event):
+	if event.is_action_pressed('scroll_up'):
+		$Camera2D.zoom = $Camera2D.zoom - Vector2(0.1, 0.1)
+	if event.is_action_pressed('scroll_down'):
+		$Camera2D.zoom = $Camera2D.zoom + Vector2(0.1, 0.1)
 
 func _physics_process (delta):
   

@@ -122,12 +122,15 @@ animations = [ {
 
 [node name="Player" type="KinematicBody2D"]
 z_index = 1
+collision_layer = 2
+collision_mask = 13
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayCast2D" type="RayCast2D" parent="." groups=["player"]]
+scale = Vector2( 10, 1 )
 enabled = true
 collide_with_areas = true
 
@@ -135,6 +138,10 @@ collide_with_areas = true
 position = Vector2( 0, -17 )
 scale = Vector2( 2.5, 2.5 )
 frames = SubResource( 2 )
-animation = "Move"
-frame = 3
+animation = "Idle"
+frame = 1
 playing = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 1.5, 1.5 )

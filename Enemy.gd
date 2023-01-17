@@ -6,16 +6,18 @@ var moveSpeed : int = 300
 var xpToGive : int = 100
 var damage : int = 1
 var attackRate : float = 0.2
-var attackDist : int = 5
-var chaseDist : int = 300
+var attackDist : int = 50
+var chaseDist : int = 200
 var minRespawn : int = 150
 var maxRespawn : int = 500
 var respawnDelay : float = 0.2
 var dead : bool = false
 var agro : bool = false
 onready var anim : AnimatedSprite = $AnimatedSprite
+onready var collision : CollisionShape2D = $CollisionShape2D
 onready var timer = $Timer
-onready var target = get_node("/root/MainScene/Player")
+onready var target = get_node("/root/MainScene/Rooms/Player")
+onready var rooms = get_node("/root/MainScene/Rooms")
 onready var ui = get_node('/root/MainScene/CanvasLayer/UI') 
 onready var noSpawn = get_node('/root/MainScene/NoSpawn') 
 
@@ -23,8 +25,6 @@ var enemy = load("res://Enemy.tscn")
 var chest = load("res://Chest.tscn")
 
 func _ready ():
-	set_collision_layer_bit(1, true)
-	set_collision_mask_bit(1, true)
 	add_to_group("enemy")
 	timer.wait_time = attackRate
 	timer.start()
@@ -55,7 +55,6 @@ func take_damage (dmgToTake):
 	if curHp <= 0:
 		die()
 		
-		
 func play_animation (anim_name):
 	#if directon == "right":
 	#	anim.flip_h = false
@@ -67,11 +66,15 @@ func play_animation (anim_name):
 func die ():
 	if is_instance_valid(target):
 		dead = true
+		collision.set_disabled(true) 
 		anim.play("Die")
 		target.give_xp(xpToGive)
-		yield(get_tree().create_timer(0.5), "timeout")
+		set_collision_layer_bit(3, false)
+		set_collision_mask_bit(2, false)
+		set_collision_mask_bit(5, false)
+		yield(anim, "animation_finished")
 		dropChest()
-		respawn()
+#		respawn()
 		queue_free()
 
 func respawn():
@@ -97,12 +100,11 @@ func respawn():
 	for _i in noSpawn.get_children():
 		var area : Polygon2D = _i
 		if Geometry.is_point_in_polygon(Vector2(pos.x, pos.y), _i.get_polygon()):
-			print_debug("invalid spawn point")
 			validSpawn = false
 		
 	if validSpawn:
 		enemy_instance.global_position = pos
-		get_tree().get_root().add_child(enemy_instance)
+		add_child(enemy_instance)
 #		breakpoint
 	else:
 		respawn()
@@ -110,11 +112,12 @@ func respawn():
 	
 func dropChest():
 	var chest_spawn = chest.instance() 
-	chest_spawn.global_position = position
-	get_tree().get_root().add_child(chest_spawn)
+	chest_spawn.position = position
+	get_parent().add_child(chest_spawn)
+#	get_tree().get_root()
 	
 func _on_Timer_timeout():
 	if is_instance_valid(target):
 		if global_position.distance_to(target.global_position) <= attackDist:
-			if dead == false: # mob isn't dead
+			if dead == false: # if mob isn't dead do damage
 				target.take_damage(damage)

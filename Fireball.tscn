@@ -64,7 +64,7 @@
 [ext_resource path="res://Sprites/fireball/Effect3/25.png" type="Texture" id=62]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 18.0
+radius = 8.0
 height = 0.0
 
 [sub_resource type="AtlasTexture" id=3]
@@ -97,33 +97,33 @@ region = Rect2( 72, 0, 12, 12 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
-"loop": true,
-"name": "explode",
-"speed": 7.0
-}, {
 "frames": [ ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 36 ), ExtResource( 58 ), ExtResource( 60 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ), ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 52 ), ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 62 ), ExtResource( 59 ), ExtResource( 61 ), ExtResource( 34 ), ExtResource( 25 ), ExtResource( 23 ), ExtResource( 19 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 15 ), ExtResource( 26 ), ExtResource( 17 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 13 ), ExtResource( 35 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 18 ), ExtResource( 22 ), ExtResource( 16 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 24 ), ExtResource( 27 ), ExtResource( 14 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 28 ) ],
 "loop": true,
 "name": "default",
 "speed": 30.0
+}, {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "explode",
+"speed": 7.0
 } ]
 
 [node name="Fireball" type="RigidBody2D"]
-collision_layer = 2
-collision_mask = 2
+z_index = 1
+collision_layer = 16
+collision_mask = 5
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 10, 0 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -6, -1 )
 rotation = 0.169297
-scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
-frame = 47
+frame = 44
 playing = true
 
 [connection signal="body_entered" from="." to="." method="_on_RigidBody2D_body_entered"]
