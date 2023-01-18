@@ -9,7 +9,7 @@ onready var Map : TileMap = get_node('/root/MainScene/TileMap')
 onready var ui = get_node('/root/MainScene/CanvasLayer/UI') 
 
 var tile_size = 16  # size of a tile in the TileMap
-var num_rooms = 50  # number of rooms to generate
+var num_rooms = 4  # number of rooms to generate
 var min_size = 10  # minimum room size (in tiles)
 var max_size = 20  # maximum room size (in tiles)
 var hspread = 400  # horizontal spread
@@ -149,17 +149,34 @@ func make_map():
 	var bottomright = Map.world_to_map(full_rect.end)
 	for x in range(topleft.x, bottomright.x):
 		for y in range(topleft.y, bottomright.y):
-			Map.set_cell(x, y, 69)
-
+			Map.set_cell(x, y, 78)
+			
 	# Carve rooms
 	var corridors = []  # One corridor per connection
 	for room in Rooms.get_children():
-		var s = (room.size / tile_size).floor()
-		var pos = Map.world_to_map(room.position)
-		var ul = (room.position / tile_size).floor() - s
+		var s = (room.size / tile_size).floor() # number of tiles in room
+		var pos = Map.world_to_map(room.position) # pos of room in world
+		var ul = (room.position / tile_size).floor() - s 
+		var xMax = (s.x * 2 - 2)
+		var yMax = (s.y * 2 - 2)
 		for x in range(2, s.x * 2 - 1):
 			for y in range(2, s.y * 2 - 1):
-				Map.set_cell(ul.x + x, ul.y + y, rand_range(26,29))
+				# left most wall of room
+				if(x == 2):
+					Map.set_cell(ul.x + x, ul.y + y, 0)
+				# top of room
+				elif(y == 2):
+					Map.set_cell(ul.x + x, ul.y + y, rand_range(1,4))
+				# bottom of room
+				elif(y == yMax):
+					Map.set_cell(ul.x + x, ul.y + y, rand_range(41,44))
+				# right most wall of room
+				elif(x == xMax):
+					Map.set_cell(ul.x + x, ul.y + y, 5)
+				# the rest of the room
+				else:
+					Map.set_cell(ul.x + x, ul.y + y, rand_range(26,29))
+
 		# Carve connecting corridor
 		var p = path.get_closest_point(Vector3(room.position.x, 
 											room.position.y, 0))
@@ -176,8 +193,10 @@ func carve_path(pos1, pos2):
 	# Carves a path between two points
 	var x_diff = sign(pos2.x - pos1.x)
 	var y_diff = sign(pos2.y - pos1.y)
-	if x_diff == 0: x_diff = pow(-1.0, randi() % 2)
-	if y_diff == 0: y_diff = pow(-1.0, randi() % 2)
+	if x_diff == 0: 
+		x_diff = pow(-1.0, randi() % 2)
+	if y_diff == 0: 
+		y_diff = pow(-1.0, randi() % 2)
 	# Carve either x/y or y/x
 	var x_y = pos1
 	var y_x = pos2
@@ -185,15 +204,17 @@ func carve_path(pos1, pos2):
 		x_y = pos2
 		y_x = pos1
 	for x in range(pos1.x, pos2.x, x_diff):
-		Map.set_cell(x, x_y.y, 8)
-		Map.set_cell(x, x_y.y+y_diff, 8)  # widen the corridor
-		Map.set_cell(x, x_y.y+y_diff*2, 8)  # widen the corridor
-		Map.set_cell(x, x_y.y+y_diff*3, 8)  # widen the corridor
+		print_debug(str("x: ", x, " - " , x_y.y))
+		Map.set_cell(x, x_y.y, 69)
+		Map.set_cell(x, x_y.y+y_diff, 69)  # widen the corridor
+		Map.set_cell(x, x_y.y+y_diff*2, 69)  # widen the corridor
+		Map.set_cell(x, x_y.y+y_diff*3, 69)  # widen the corridor
 	for y in range(pos1.y, pos2.y, y_diff):
-		Map.set_cell(y_x.x, y, 8)
-		Map.set_cell(y_x.x+x_diff, y, 8)  # widen the corridor
-		Map.set_cell(y_x.x+x_diff*2, y, 8)  # widen the corridor
-		Map.set_cell(y_x.x+x_diff*3, y, 8)  # widen the corridor
+		print_debug("y: ", y, " - ", y_x.x)
+		Map.set_cell(y_x.x, y, 69)
+		Map.set_cell(y_x.x+x_diff, y, 69)  # widen the corridor
+		Map.set_cell(y_x.x+x_diff*2, y, 69)  # widen the corridor
+		Map.set_cell(y_x.x+x_diff*3, y, 69)  # widen the corridor
 		
 func find_start_room():
 	var min_x = INF
