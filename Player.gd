@@ -19,15 +19,15 @@ var shakeCamera = false
 var shakeTime = 0
 onready var rayCast = $RayCast2D
 onready var anim : AnimatedSprite = $AnimatedSprite
-onready var ui = get_node('/root/MainScene/CanvasLayer/UI') 
-onready var camera : Camera2D = $Camera2D 
+onready var ui = get_node('/root/MainScene/CanvasLayer/UI')
+onready var camera : Camera2D = $Camera2D
 var fireball = preload("res://Fireball.tscn")
 # Called when the node enters the scene tree for the first time.
 
 #func _ready():
 	# set camera to target player position once loaded
 #	camera.position = position
-	
+
 func _process (delta):
 	ui.update_level_text(curLevel)
 	ui.update_health_bar(curHp, maxHp)
@@ -37,14 +37,14 @@ func _process (delta):
 
 func _input(event):
 	if event.is_action_pressed('scroll_up'):
-		camera.zoom = camera.zoom - Vector2(0.1, 0.1)
+		$Camera2D.zoom = $Camera2D.zoom - Vector2(0.1, 0.1)
 	if event.is_action_pressed('scroll_down'):
-		camera.zoom = camera.zoom + Vector2(0.1, 0.1)
+		$Camera2D.zoom = $Camera2D.zoom + Vector2(0.1, 0.1)
 
 func _physics_process (delta):
-  
+
 	vel = Vector2()
-  
+
 	if Input.is_action_pressed("fire") and canFire:
 		var fireball_instance = fireball.instance()
 		fireball_instance.position = get_global_position()
@@ -69,23 +69,23 @@ func _physics_process (delta):
 	if Input.is_action_pressed("move_right"):
 		vel.x += 1
 		facingDir = Vector2(1, 0)
-  
+
 	# normalize the velocity to prevent faster diagonal movement
 	vel = vel.normalized()
-  
+
 	# move the player
 	move_and_slide(vel * moveSpeed, Vector2.ZERO)
-	
+
 	manage_animations()
-	
+
 func give_gold (amount):
 	gold += amount
 	ui.update_gold_text(gold)
-	
+
 func give_hp (amount):
 	curHp += amount
 	ui.update_health_bar(curHp, maxHp)
-	
+
 func give_xp (amount):
 	curXp += amount
 	ui.update_xp_bar(curXp, xpToNextLevel)
@@ -98,21 +98,21 @@ func level_up ():
 	curXp = overflowXp
 	curLevel += 1
 	ui.update_level_text(curLevel)
-	
+
 func take_damage (dmgToTake):
 	curHp -= dmgToTake
 	ui.update_damage_taken(dmgToTake)
 	ui.update_health_bar(curHp, maxHp)
 	if curHp <= 0:
 		die()
-		
+
 func die ():
 	get_tree().reload_current_scene()
-	
+
 func manage_animations ():
 	var lastDirection = "right"
 	if vel.x > 0:
-		#right 
+		#right
 		lastDirection = "right"
 		play_animation("Move", "right")
 	elif vel.x < 0:
@@ -139,7 +139,7 @@ func manage_animations ():
 	elif facingDir.y == 1:
 		#down
 		play_animation("Idle", lastDirection)
-		
+
 func play_animation (anim_name, directon):
 	if directon == "right":
 		anim.flip_h = false
@@ -151,7 +151,7 @@ func play_animation (anim_name, directon):
 func startShakeCamera (shakeAmount, shakeTime):
 	shakeCamera = true
 	$Camera2D/CameraShakeTimer.start(shakeTime)
-	
+
 func checkShakeCamera ():
 	if (shakeCamera == true):
 		var shakeAmount = 3
