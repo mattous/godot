@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Sprites/Player/player_s_0.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
@@ -14,10 +14,11 @@
 [ext_resource path="res://Sprites/Player/player_w_0.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/Player/player_w_2.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/mysitc-wood/sprites/characters/player.png" type="Texture" id=14]
+[ext_resource path="res://CameraShakeTimer.gd" type="Script" id=15]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 21.0
-height = 10.0
+radius = 7.0
+height = 8.0
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 14 )
@@ -69,11 +70,6 @@ region = Rect2( 240, 48, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "IdleDown",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "IdleUp",
@@ -97,6 +93,11 @@ animations = [ {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
 "name": "IdleRight",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "IdleDown",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ) ],
@@ -127,16 +128,15 @@ collision_mask = 13
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1, -8 )
 shape = SubResource( 1 )
 
 [node name="RayCast2D" type="RayCast2D" parent="." groups=["player"]]
-scale = Vector2( 10, 1 )
 enabled = true
 collide_with_areas = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -17 )
-scale = Vector2( 2.5, 2.5 )
+position = Vector2( -1, -16 )
 frames = SubResource( 2 )
 animation = "Idle"
 frame = 1
@@ -144,4 +144,9 @@ playing = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-zoom = Vector2( 1.5, 1.5 )
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="CameraShakeTimer" type="Timer" parent="Camera2D"]
+script = ExtResource( 15 )
+
+[connection signal="timeout" from="Camera2D/CameraShakeTimer" to="." method="_on_CameraShakeTimer_timeout"]

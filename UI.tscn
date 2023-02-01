@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://UI/UI_Square.png" type="Texture" id=1]
 [ext_resource path="res://Font/roboto-bold.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Font/roboto-regular.tres" type="DynamicFont" id=3]
 [ext_resource path="res://UI.gd" type="Script" id=4]
+[ext_resource path="res://default_theme.tres" type="Theme" id=5]
 
 [node name="UI" type="Control"]
 script = ExtResource( 4 )
@@ -110,6 +111,7 @@ margin_bottom = -2.0
 custom_fonts/font = ExtResource( 2 )
 
 [node name="LoadScreen" type="TextureRect" parent="."]
+visible = false
 self_modulate = Color( 0, 0, 0, 1 )
 margin_top = -551.0
 margin_right = 1119.0
@@ -127,8 +129,72 @@ text = "Loading..."
 align = 1
 valign = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="LoadScreen"]
-margin_left = 393.0
-margin_top = 306.0
-margin_right = 503.0
-margin_bottom = 346.0
+[node name="TitleScreen" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color( 0, 0, 0, 1 )
+margin_top = -551.0
+margin_right = 1119.0
+margin_bottom = 68.0
+theme = ExtResource( 5 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Title" type="Label" parent="TitleScreen"]
+margin_left = 47.0
+margin_top = 59.0
+margin_right = 136.0
+margin_bottom = 99.0
+rect_scale = Vector2( 5, 5 )
+text = "Game Title"
+align = 1
+valign = 1
+
+[node name="ButtonRandom" type="Button" parent="TitleScreen"]
+margin_left = 109.0
+margin_top = 345.0
+margin_right = 210.0
+margin_bottom = 396.0
+text = "Random"
+
+[node name="SelectModeText" type="Label" parent="TitleScreen"]
+margin_left = 124.0
+margin_top = 277.0
+margin_right = 207.0
+margin_bottom = 295.0
+rect_scale = Vector2( 2, 2 )
+text = "Select Mode:"
+align = 1
+valign = 1
+
+[node name="NormalButton" type="Button" parent="TitleScreen"]
+margin_left = 222.0
+margin_top = 346.0
+margin_right = 318.0
+margin_bottom = 396.0
+text = "Normal"
+
+[node name="StoryText" type="TextureRect" parent="."]
+modulate = Color( 0.541176, 0.541176, 0.541176, 1 )
+self_modulate = Color( 0.278431, 0.278431, 0.278431, 1 )
+margin_left = 451.0
+margin_top = -81.0
+margin_right = 593.0
+margin_bottom = -46.0
+theme = ExtResource( 5 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="StoryText"]
+anchor_right = 2.0
+margin_top = 6.0
+margin_right = -142.0
+margin_bottom = 28.0
+theme = ExtResource( 5 )
+bbcode_enabled = true
+bbcode_text = "[center][shake rate=5 level=10]no way out[/shake][/center]"
+text = "no way out"
+scroll_active = false
+scroll_following = true
+
+[connection signal="pressed" from="TitleScreen/ButtonRandom" to="." method="_on_ButtonRandom_pressed"]
+[connection signal="pressed" from="TitleScreen/NormalButton" to="." method="_on_NormalButton_pressed"]

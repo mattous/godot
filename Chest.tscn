@@ -7,6 +7,7 @@
 extents = Vector2( 15, 16 )
 
 [node name="Coin" type="Area2D"]
+scale = Vector2( 0.5, 0.5 )
 z_index = 1
 collision_layer = 8
 collision_mask = 3
@@ -20,5 +21,5 @@ position = Vector2( -9.53674e-07, 0 )
 scale = Vector2( 3.38889, 3.62532 )
 frames = ExtResource( 1 )
 animation = "spin"
-frame = 3
+frame = 4
 playing = true

@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 var curHp : int = 100
 var maxHp : int = 100
-var moveSpeed : int = 500
+var moveSpeed : int = 250
 var damage : int = 1
 var gold : int = 0
 var curLevel : int = 0
@@ -10,15 +10,17 @@ var curXp : int = 0
 var xpToNextLevel : int = 50
 var xpToLevelIncreaseRate : float = 1.2
 var interactDist : int = 70
-var fireballSpeed : int = 1000
+var fireballSpeed : int = 500
 var fireballRate : float = 0.5
 var canFire = true
 var vel = Vector2()
 var facingDir = Vector2()
+var shakeCamera = false
+var shakeTime = 0
 onready var rayCast = $RayCast2D
 onready var anim : AnimatedSprite = $AnimatedSprite
 onready var ui = get_node('/root/MainScene/CanvasLayer/UI') 
-onready var camera = get_node('/root/MainScene/Camera') 
+onready var camera : Camera2D = $Camera2D 
 var fireball = preload("res://Fireball.tscn")
 # Called when the node enters the scene tree for the first time.
 
@@ -31,12 +33,13 @@ func _process (delta):
 	ui.update_health_bar(curHp, maxHp)
 	ui.update_xp_bar(curXp, xpToNextLevel)
 	ui.update_gold_text(gold)
+	checkShakeCamera()
 
 func _input(event):
 	if event.is_action_pressed('scroll_up'):
-		$Camera2D.zoom = $Camera2D.zoom - Vector2(0.1, 0.1)
+		camera.zoom = camera.zoom - Vector2(0.1, 0.1)
 	if event.is_action_pressed('scroll_down'):
-		$Camera2D.zoom = $Camera2D.zoom + Vector2(0.1, 0.1)
+		camera.zoom = camera.zoom + Vector2(0.1, 0.1)
 
 func _physics_process (delta):
   
@@ -144,3 +147,20 @@ func play_animation (anim_name, directon):
 		anim.flip_h = true
 	if anim.animation != anim_name:
 		anim.play(anim_name)
+
+func startShakeCamera (shakeAmount, shakeTime):
+	shakeCamera = true
+	$Camera2D/CameraShakeTimer.start(shakeTime)
+	
+func checkShakeCamera ():
+	if (shakeCamera == true):
+		var shakeAmount = 3
+		$Camera2D.set_offset(Vector2(
+			rand_range(-1.0, 1.0) * shakeAmount,
+			rand_range(-1.0, 1.0) * shakeAmount
+		))
+
+func _on_CameraShakeTimer_timeout():
+	shakeCamera = false
+	$Camera2D.set_offset(Vector2(0, 0))
+	$Camera2D/CameraShakeTimer.stop()

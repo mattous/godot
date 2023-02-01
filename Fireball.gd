@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-export var damage : int = 5
+export var damage : int = 2
 onready var anim : AnimatedSprite = $AnimatedSprite
 onready var collision : CollisionShape2D = $CollisionShape2D
 
@@ -14,7 +14,7 @@ func _on_RigidBody2D_body_entered(body):
 		
 		damage = 0 # if we already hit something don't do anymore dmg
 		anim.play('explode')
-		anim.set_scale(Vector2(5,5))
+		anim.set_scale(Vector2(1, 1))
 		yield(anim, "animation_finished")
 		queue_free()
 

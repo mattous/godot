@@ -9,7 +9,7 @@ onready var Map : TileMap = get_node('/root/MainScene/TileMap')
 onready var ui = get_node('/root/MainScene/CanvasLayer/UI') 
 
 var tile_size = 16  # size of a tile in the TileMap
-var num_rooms = 4  # number of rooms to generate
+var num_rooms = 20  # number of rooms to generate
 var min_size = 10  # minimum room size (in tiles)
 var max_size = 20  # maximum room size (in tiles)
 var hspread = 400  # horizontal spread
@@ -24,7 +24,6 @@ var enemy = null
 
 func _ready():
 	randomize()
-	make_rooms()
 	
 func _draw():
 	if start_room:
@@ -49,6 +48,7 @@ func _process(delta):
 	
 func _input(event):
 	if event.is_action_pressed('ui_select'):
+		ui.showLoadScreen()
 		if play_mode:
 			player.queue_free()
 			play_mode = false
@@ -62,6 +62,9 @@ func _input(event):
 #		make_map()
 #	if event.is_action_pressed('ui_cancel'):
 #		spawn_player()
+
+func activate():
+	make_rooms()
 		
 func spawn_player():
 	ui.hideLoadScreen()
@@ -150,9 +153,8 @@ func make_map():
 	for x in range(topleft.x, bottomright.x):
 		for y in range(topleft.y, bottomright.y):
 			Map.set_cell(x, y, 78)
-			
+	
 	# Carve rooms
-	var corridors = []  # One corridor per connection
 	for room in Rooms.get_children():
 		var s = (room.size / tile_size).floor() # number of tiles in room
 		var pos = Map.world_to_map(room.position) # pos of room in world
@@ -176,16 +178,30 @@ func make_map():
 				# the rest of the room
 				else:
 					Map.set_cell(ul.x + x, ul.y + y, rand_range(26,29))
-
+					
+		
 		# Carve connecting corridor
-		var p = path.get_closest_point(Vector3(room.position.x, 
-											room.position.y, 0))
+		var p = path.get_closest_point(
+			Vector3(
+				room.position.x, room.position.y, 0
+			)
+		)
+		
+		var corridors = []  # One corridor per connection
 		for conn in path.get_point_connections(p):
 			if not conn in corridors:
-				var start = Map.world_to_map(Vector2(path.get_point_position(p).x,
-													path.get_point_position(p).y))
-				var end = Map.world_to_map(Vector2(path.get_point_position(conn).x,
-													path.get_point_position(conn).y))									
+				var start = Map.world_to_map(
+					Vector2(
+						path.get_point_position(p).x,
+						path.get_point_position(p).y
+					)
+				)
+				var end = Map.world_to_map(
+					Vector2(
+						path.get_point_position(conn).x,
+						path.get_point_position(conn).y
+					)
+				)									
 				carve_path(start, end)
 		corridors.append(p)
 		
@@ -200,21 +216,23 @@ func carve_path(pos1, pos2):
 	# Carve either x/y or y/x
 	var x_y = pos1
 	var y_x = pos2
+	var tileRangeStart = 69
+	var tileRangeEnd = 69
 	if (randi() % 2) > 0:
 		x_y = pos2
 		y_x = pos1
 	for x in range(pos1.x, pos2.x, x_diff):
-		print_debug(str("x: ", x, " - " , x_y.y))
-		Map.set_cell(x, x_y.y, 69)
-		Map.set_cell(x, x_y.y+y_diff, 69)  # widen the corridor
-		Map.set_cell(x, x_y.y+y_diff*2, 69)  # widen the corridor
-		Map.set_cell(x, x_y.y+y_diff*3, 69)  # widen the corridor
+#		print_debug(str("x: ", x, " - " , x_y.y))
+		Map.set_cell(x, x_y.y, rand_range(tileRangeStart, tileRangeEnd))
+		Map.set_cell(x, x_y.y+y_diff, rand_range(tileRangeStart, tileRangeEnd))  # widen the corridor
+		Map.set_cell(x, x_y.y+y_diff*2, rand_range(tileRangeStart, tileRangeEnd))  # widen the corridor
+		Map.set_cell(x, x_y.y+y_diff*3, rand_range(tileRangeStart, tileRangeEnd))  # widen the corridor
 	for y in range(pos1.y, pos2.y, y_diff):
-		print_debug("y: ", y, " - ", y_x.x)
-		Map.set_cell(y_x.x, y, 69)
-		Map.set_cell(y_x.x+x_diff, y, 69)  # widen the corridor
-		Map.set_cell(y_x.x+x_diff*2, y, 69)  # widen the corridor
-		Map.set_cell(y_x.x+x_diff*3, y, 69)  # widen the corridor
+#		print_debug("y: ", y, " - ", y_x.x)
+		Map.set_cell(y_x.x, y, rand_range(tileRangeStart, tileRangeEnd))
+		Map.set_cell(y_x.x+x_diff, y, rand_range(tileRangeStart, tileRangeEnd))  # widen the corridor
+		Map.set_cell(y_x.x+x_diff*2, y, rand_range(tileRangeStart, tileRangeEnd))  # widen the corridor
+		Map.set_cell(y_x.x+x_diff*3, y, rand_range(tileRangeStart, tileRangeEnd))  # widen the corridor
 		
 func find_start_room():
 	var min_x = INF
